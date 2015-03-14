@@ -1,0 +1,76 @@
+.cmt {
+    color: blue;
+}
+
+div.rblk{
+    position: absolute;
+    left: 100px;
+    top: 200px;
+    border-style: solid;
+    border-width: 3px;
+    border-color: #0080FF;
+    width: 100px;
+    height: 100px;
+}
+
+.top_right{
+    position: absolute;
+    top:0px;
+    right:0px;
+    height:20px;
+    width:20px;
+    padding:0px;
+}
+#pal{
+    height:300px;
+    width:300px;
+    background: rgb(0,140,255);
+    visibility: hidden;
+}
+#opt_panel{
+    position: fixed;
+    right: 0px;
+    bottom: 0px;
+    height: 400px;
+    width: 200px;
+    border-style: solid;
+    border-color: red;
+    visibility: hidden;
+}
+#opt_panel_tr{
+    resize: none;
+    width: 200px;
+    height: 360px;
+}
+
+div.btn{
+    background: #0080FF;
+    color: white;
+    height: 40px;
+    width: 40px;
+    display: inline-block;
+    padding: 0px;
+    border: 0px;
+}
+div.btn p{
+    text-align: center;
+    position: relative;
+    top: 50%;
+    transform: translateY(-50%);
+    margin: 0;
+}
+div.btn:hover{
+    background: #00FFFF;
+}
+div.btn:active{
+    background: #FFFFFF;
+}
+
+body{
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    -khtml-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+}

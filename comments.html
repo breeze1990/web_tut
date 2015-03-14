@@ -1,0 +1,39 @@
+<html>
+<head>
+    <link rel="stylesheet" type="text/css" href="comments.css">
+    <script src="comments.js"></script>
+    <script>
+        function rgb(r,g,b){
+            return "rgb("+r+","+g+","+b+")";
+        }
+        function showcolor(){
+            var r = $('rcp').value;
+            var g = $('gcp').value;
+            var b = $('bcp').value;
+            $('pal').style.background=rgb(r,g,b);
+            $('rval').innerHTML = r;
+            $('gval').innerHTML = g;
+            $('bval').innerHTML = b;
+            return rgb(r,g,b);
+        }
+    </script>
+</head>
+<body>
+    <p class="cmt">hello world</p>
+    <div id="test" class="rblk" onmousedown="down(event)" onmouseup="up(event)"
+        onmousemove="move(event)" onmouseleave="up(event)">drag me</div>
+    <div id="demo">hi</div>
+    <div id="opt_panel"><textarea id="opt_panel_tr">g</textarea>
+        <div class="btn" onclick="save(event)"><p>save</p></div><!--
+        --><div class="btn" onclick="changeclr(event)"><p>color</p></div><!--
+        --><div class="btn" onclick="panel_toggle()"><p>Panel</p></div><!--
+        --><div class="btn" onclick="$('opt_panel').style.visibility = 'hidden'"><p>close</p></div>
+    </div>
+    <button type="button" onclick="add()">Add</button>
+    <div id="pal" onclick="showcolor()">color<br>
+        R:<input type="range" id="rcp" value="00" min=0 max=255 onmouseup="showcolor()"><label id='rval'>0</label><br>
+        G:<input type="range" id="gcp" value="140" min=0 max=255 onmouseup="showcolor()"><label id='gval'>140</label><br>
+        B:<input type="range" id="bcp" value="255" min=0 max=255 onmouseup="showcolor()"><label id='bval'>255</label><br>
+</div>
+</body>
+</html>
