@@ -27,13 +27,16 @@
         <div class="btn" onclick="save(event)"><p>save</p></div><!--
         --><div class="btn" onclick="changeclr(event)"><p>color</p></div><!--
         --><div class="btn" onclick="panel_toggle()"><p>Panel</p></div><!--
-        --><div class="btn" onclick="$('opt_panel').style.visibility = 'hidden'"><p>close</p></div>
+        --><div class="btn" onclick="hide_conf()"><p>close</p></div>
     </div>
     <button type="button" onclick="add()">Add</button>
     <div id="pal" onclick="showcolor()">color<br>
-        R:<input type="range" id="rcp" value="00" min=0 max=255 onmouseup="showcolor()"><label id='rval'>0</label><br>
-        G:<input type="range" id="gcp" value="140" min=0 max=255 onmouseup="showcolor()"><label id='gval'>140</label><br>
-        B:<input type="range" id="bcp" value="255" min=0 max=255 onmouseup="showcolor()"><label id='bval'>255</label><br>
+        R:<input type="range" id="rcp" value="0" min=0 max=255 onmouseup="showcolor()"   onmousemove="move_stop_prop(event)">
+            <label id='rval'>0</label><br>
+        G:<input type="range" id="gcp" value="140" min=0 max=255 onmouseup="showcolor()" onmousemove="move_stop_prop(event)">
+            <label id='gval'>140</label><br>
+        B:<input type="range" id="bcp" value="255" min=0 max=255 onmouseup="showcolor()" onmousemove="move_stop_prop(event)">
+            <label id='bval'>255</label><br>
 </div>
 </body>
 </html>

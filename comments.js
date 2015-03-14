@@ -3,6 +3,10 @@ var flag = 0;
 var _ = document;
 var edit_obj = {};
 
+window.onload = function(){
+    setMovable($('pal'));
+}
+
 function changeclr(event){
     if(edit_obj.style === undefined) return;
     edit_obj.style["border-color"] = showcolor();
@@ -11,14 +15,27 @@ function save(event){
     if(Object.keys(edit_obj).length==0) return;
     edit_obj.childNodes[0].nodeValue = $('opt_panel_tr').value;
 }
-function add(){
-    var node = _.createElement("div");
-    node.innerHTML = 'bye';
-    node.className = 'rblk';
+
+function setMovable(node){
+    //add listeners to the element denoted by 'node' variable
+    //so that it can move around with mouse in the web page
+    node.style.position = 'absolute';
     node.addEventListener("mousedown",down);
     node.addEventListener("mouseup",up);
     node.addEventListener("mousemove",move);
     node.addEventListener("mouseleave",up);
+}
+function add(){
+    var node = _.createElement("div");
+    node.innerHTML = 'bye';
+    node.className = 'rblk';
+    /*
+    node.addEventListener("mousedown",down);
+    node.addEventListener("mouseup",up);
+    node.addEventListener("mousemove",move);
+    node.addEventListener("mouseleave",up);
+    */
+    setMovable(node);
     node.addEventListener("dblclick",function(event){
         edit_obj = event.currentTarget;
         console.log('dblclick');
@@ -35,10 +52,16 @@ function add(){
         var cur = that.parentNode;
         var par = cur.parentNode;
         par.removeChild(cur);
+        hide_conf();
     });
     var btext = _.createTextNode('\u2715');
     btn.appendChild(btext);
     node.appendChild(btn);
+}
+function hide_conf(){
+    edit_obj = {};
+    $('pal').style.visibility = 'hidden';
+    $('opt_panel').style.visibility = 'hidden';
 }
 function down(evt){
     evt.currentTarget.c_down = 1;
@@ -52,17 +75,12 @@ function up(evt){
 };
 
 function move(evt){
-    //$('demo').innerHTML = $('test').getBoundingClientRect().left;
-    //if(flag==1) $('test').style.left = $('test').getBoundingClientRect().left+evt.movementX+"px";
-    //if(flag==1) $('test').style.top = $('test').getBoundingClientRect().top+evt.movementY+"px";
     var obj = evt.currentTarget;
     var down = obj.c_down;
     if(typeof down =='number' && down == 1){
         obj.style.left = obj.getBoundingClientRect().left+evt.movementX+"px";
         obj.style.top = obj.getBoundingClientRect().top+evt.movementY+"px";
     }
-    //console.log("moving");
-    //console.log(evt.currentTarget);
 };
 
 function $(id){
@@ -73,4 +91,7 @@ function panel_toggle(){
     var v = $('pal').style.visibility;
     if(v!='visible') $('pal').style.visibility = 'visible';
     else $('pal').style.visibility = 'hidden';
+}
+function move_stop_prop(evt){
+    evt.stopPropagation();
 }
