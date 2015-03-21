@@ -9,10 +9,15 @@ div.rblk{
     border-style: solid;
     border-width: 3px;
     border-color: #0080FF;
-    width: 100px;
-    height: 100px;
+    width: 150px;
+    height: 150px;
+    background-color: white;
+    zIndex: 0;
 }
 
+.rblk_card{
+    display: block;
+}
 .top_right{
     position: absolute;
     top:0px;
@@ -20,6 +25,7 @@ div.rblk{
     height:20px;
     width:20px;
     padding:0px;
+    text-align: center;
 }
 #pal{
     height:300px;
@@ -43,11 +49,17 @@ div.rblk{
     height: 360px;
 }
 
-div.btn{
-    background: #0080FF;
-    color: white;
+.btn-norm{
     height: 40px;
     width: 40px;
+}
+.btn-small{
+    height: 20px;
+    width: 20px;
+}
+div.btn{
+    background-color: #0080FF;
+    color: white;
     display: inline-block;
     padding: 0px;
     border: 0px;
@@ -56,7 +68,7 @@ div.btn p{
     text-align: center;
     position: relative;
     top: 50%;
-    transform: translateY(-50%);
+    transform: translateY(-55%);
     margin: 0;
 }
 div.btn:hover{
@@ -73,4 +85,25 @@ body{
     -moz-user-select: none;
     -ms-user-select: none;
     user-select: none;
+}
+@font-face {
+    font-family: 'Glyphicons Halflings';
+    src: url('https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/fonts/glyphicons-halflings-regular.eot');
+    src: url('https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/fonts/glyphicons-halflings-regular.eot?#iefix') format('embedded-opentype'),
+         url('https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/fonts/glyphicons-halflings-regular.woff2') format('woff2'),
+         url('https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/fonts/glyphicons-halflings-regular.woff') format('woff'),
+         url('https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/fonts/glyphicons-halflings-regular.ttf') format('truetype'),
+         url('https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/fonts/glyphicons-halflings-regular.svg#glyphicons_halflingsregular') format('svg');');
+}
+.icon{
+    font-family: 'Glyphicons Halflings';
+}
+.icon-remove:before {
+    content: "\e014";
+}
+.label{
+    height: 20px;
+    padding: 0px;
+    background-color: #0080FF;
+    color: #FFFFFF;
 }

@@ -1,7 +1,9 @@
 <html>
 <head>
     <link rel="stylesheet" type="text/css" href="comments.css">
+    <!--link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css"-->
     <script src="comments.js"></script>
+    <script src="idm.js"></script>
     <script>
         function rgb(r,g,b){
             return "rgb("+r+","+g+","+b+")";
@@ -20,16 +22,22 @@
 </head>
 <body>
     <p class="cmt">hello world</p>
-    <div id="test" class="rblk" onmousedown="down(event)" onmouseup="up(event)"
-        onmousemove="move(event)" onmouseleave="up(event)">drag me</div>
+    <div id="test" class="rblk">
+        <div class="rblk_card">
+            <div class="label">Hello World</div>
+            <div class="top_right btn btn-small"><p>&#x2715;</p></div>
+        </div>
+        <div class="rblk_card">drag me</div>
+    </div>
     <div id="demo">hi</div>
     <div id="opt_panel"><textarea id="opt_panel_tr">g</textarea>
-        <div class="btn" onclick="save(event)"><p>save</p></div><!--
-        --><div class="btn" onclick="changeclr(event)"><p>color</p></div><!--
-        --><div class="btn" onclick="panel_toggle()"><p>Panel</p></div><!--
-        --><div class="btn" onclick="hide_conf()"><p>close</p></div>
+        <div class="btn btn-norm" onclick="save(event)"><p>save</p></div><!--
+        --><div class="btn btn-norm" onclick="changeclr(event)"><p>color</p></div><!--
+        --><div class="btn btn-norm" onclick="panel_toggle()"><p>Panel</p></div><!--
+        --><div class="btn btn-norm" onclick="hide_conf()"><p>close</p></div>
     </div>
     <button type="button" onclick="add()">Add</button>
+    <button type="button">Display</button>
     <div id="pal" onclick="showcolor()">color<br>
         R:<input type="range" id="rcp" value="0" min=0 max=255 onmouseup="showcolor()"   onmousemove="move_stop_prop(event)">
             <label id='rval'>0</label><br>
@@ -37,6 +45,7 @@
             <label id='gval'>140</label><br>
         B:<input type="range" id="bcp" value="255" min=0 max=255 onmouseup="showcolor()" onmousemove="move_stop_prop(event)">
             <label id='bval'>255</label><br>
-</div>
+    </div>
+
 </body>
 </html>

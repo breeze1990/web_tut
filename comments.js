@@ -2,18 +2,23 @@ var tmp = "HI";
 var flag = 0;
 var _ = document;
 var edit_obj = {};
+var blk_count = 0;
+var blkPool = {};
 
 window.onload = function(){
     setMovable($('pal'));
+    setMovable($('test'));
 }
 
 function changeclr(event){
     if(edit_obj.style === undefined) return;
     edit_obj.style["border-color"] = showcolor();
+    edit_obj.children[0].children[0].style["background-color"] = showcolor();
+
 };
 function save(event){
     if(Object.keys(edit_obj).length==0) return;
-    edit_obj.childNodes[0].nodeValue = $('opt_panel_tr').value;
+    edit_obj.childNodes[1].innerHTML = $('opt_panel_tr').value;
 }
 
 function setMovable(node){
@@ -25,25 +30,43 @@ function setMovable(node){
     node.addEventListener("mousemove",move);
     node.addEventListener("mouseleave",up);
 }
+
+function rmBlk(event){
+    var that = event.currentTarget;
+    var cur = that.parentNode;
+    var par = cur.parentNode;
+    par.removeChild(cur);
+}
 function add(){
     var node = _.createElement("div");
-    node.innerHTML = 'bye';
+    node._id = CMT_IDM.getNext();
+    blkPool[node._id] = node;
+    blk_count++;
+    node.innerHTML = '<div class="rblk_card"><div class="label">Hello World</div>' +
+    '<div class="top_right btn btn-small""><p>&#x2715;</p></div>' +
+    '</div><div class="rblk_card">drag me</div>';
     node.className = 'rblk';
-    /*
-    node.addEventListener("mousedown",down);
-    node.addEventListener("mouseup",up);
-    node.addEventListener("mousemove",move);
-    node.addEventListener("mouseleave",up);
-    */
+    var thisid = node._id;
+    node.children[0].children[1].pid = node._id;
+    node.children[0].children[1].addEventListener('click',function(event){
+        var that = event.currentTarget;
+        console.log(that.pid);
+        var cur = blkPool[that.pid];
+        CMT_IDM.rmId(cur._id);
+        restack(cur);
+        blk_count--;
+        _.body.removeChild(blkPool[cur._id]);
+        delete blkPool[cur._id];
+        hide_conf();
+    });
     setMovable(node);
     node.addEventListener("dblclick",function(event){
         edit_obj = event.currentTarget;
-        console.log('dblclick');
         $('opt_panel').style.visibility = 'visible';
-        $('opt_panel_tr').value = event.currentTarget.childNodes[0].nodeValue;
+        $('opt_panel_tr').value = event.currentTarget.childNodes[1].innerHTML;
     })
     _.body.appendChild(node);
-
+/*
     var btn = _.createElement("button");
     btn.setAttribute('type','button');
     btn.setAttribute('class','top_right');
@@ -51,12 +74,23 @@ function add(){
         var that = event.currentTarget;
         var cur = that.parentNode;
         var par = cur.parentNode;
-        par.removeChild(cur);
+
+        CMT_IDM.rmId(cur._id);
+        restack(cur);
+        blk_count--;
+        //par.removeChild(cur);
+        _.body.removeChild(blkPool[cur._id]);
+        delete blkPool[cur._id];
         hide_conf();
     });
     var btext = _.createTextNode('\u2715');
     btn.appendChild(btext);
     node.appendChild(btn);
+*/
+    //var rmnd = _.createElement("span");
+    //rmnd.setAttribute('class','icon icon-remove');
+    //node.appendChild(rmnd);
+    node.style.zIndex = blk_count;
 }
 function hide_conf(){
     edit_obj = {};
@@ -66,7 +100,9 @@ function hide_conf(){
 function down(evt){
     evt.currentTarget.c_down = 1;
     flag = 1;
-
+    var cur = evt.currentTarget;
+    restack(cur);
+    cur.style.zIndex = blk_count.toString();
 };
 
 function up(evt){
@@ -94,4 +130,13 @@ function panel_toggle(){
 }
 function move_stop_prop(evt){
     evt.stopPropagation();
+}
+function restack(cur){
+    var cval = parseInt(cur.style.zIndex);
+    var lst = _.getElementsByClassName('rblk');
+    for(var it=0;it<=blk_count;it++){
+        var el = lst[it];
+        var val = parseInt(el.style.zIndex);
+        if(!isNaN(val) && val>cval) el.style.zIndex=(val-1).toString();
+    }
 }
