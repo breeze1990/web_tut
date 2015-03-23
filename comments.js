@@ -140,3 +140,11 @@ function restack(cur){
         if(!isNaN(val) && val>cval) el.style.zIndex=(val-1).toString();
     }
 }
+function output(){
+    var content = {};
+    var lst = _.getElementsByClassName('rblk');
+    for(var it=0;it<=blk_count;it++){
+        content[it] = lst[it].children[1].innerHTML;
+    }
+    $('output').innerHTML = JSON.stringify(content)
+}
