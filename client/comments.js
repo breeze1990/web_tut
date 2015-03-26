@@ -66,30 +66,7 @@ function add(){
         $('opt_panel_tr').value = event.currentTarget.childNodes[1].innerHTML;
     })
     _.body.appendChild(node);
-/*
-    var btn = _.createElement("button");
-    btn.setAttribute('type','button');
-    btn.setAttribute('class','top_right');
-    btn.addEventListener("click",function(event){
-        var that = event.currentTarget;
-        var cur = that.parentNode;
-        var par = cur.parentNode;
 
-        CMT_IDM.rmId(cur._id);
-        restack(cur);
-        blk_count--;
-        //par.removeChild(cur);
-        _.body.removeChild(blkPool[cur._id]);
-        delete blkPool[cur._id];
-        hide_conf();
-    });
-    var btext = _.createTextNode('\u2715');
-    btn.appendChild(btext);
-    node.appendChild(btn);
-*/
-    //var rmnd = _.createElement("span");
-    //rmnd.setAttribute('class','icon icon-remove');
-    //node.appendChild(rmnd);
     node.style.zIndex = blk_count;
 }
 function hide_conf(){
@@ -112,10 +89,13 @@ function up(evt){
 
 function move(evt){
     var obj = evt.currentTarget;
+    var moveX = evt.movementX || evt.mozMovementX;
+    var moveY = evt.movementY || evt.mozMovementY;
     var down = obj.c_down;
+
     if(typeof down =='number' && down == 1){
-        obj.style.left = obj.getBoundingClientRect().left+evt.movementX+"px";
-        obj.style.top = obj.getBoundingClientRect().top+evt.movementY+"px";
+        obj.style.left = (obj.getBoundingClientRect().left+moveX)+"px";
+        obj.style.top = (obj.getBoundingClientRect().top+moveY)+"px";
     }
 };
 

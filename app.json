@@ -1,0 +1,6 @@
+{
+  "name": "Node.js Getting Started",
+  "description": "A note webapp based on Node.js",
+  "repository": "https://github.com/breeze1990/web_tut.git",
+  "keywords": ["node", "express", "heroku"]
+}
