@@ -99,7 +99,16 @@ body{
     font-family: 'Glyphicons Halflings';
 }
 .icon-remove:before {
+    color: #0080FF;
     content: "\e014";
+}
+span:hover.icon-remove:before{
+    color: #FFFFFF;
+    background: #0080FF;
+}
+span:active.icon-remove:before{
+    color: #0080FF;
+    background: #FFFFFF;
 }
 .label{
     height: 20px;
