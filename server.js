@@ -3,7 +3,8 @@ var path = require('path');
 var http = require('http');
 var router = express();
 
-router.set('port',(process.env.PORT || 5000));
+var sockets = [];
+
 router.use(express.static(path.resolve(__dirname, 'client'), {index:'comments.html'}));
 
 var server = http.createServer(router);
@@ -11,3 +12,23 @@ server.listen(process.env.PORT || 5000, process.env.IP || "0.0.0.0", function(){
   var addr = server.address();
   console.log("Chat server listening at", addr.address + ":" + addr.port);
 });
+
+var io = require('socket.io')(server);
+
+io.on('connection',function(socket){
+  sockets.push(socket);
+  console.log('A user connected.');
+  socket.on('disconnect',function(){
+    rm_socket(socket);
+    console.log((socket.name || 'A user') + ' disconnected.');
+  })
+
+  socket.on('setName',function(data){
+    if(!data) socket.name = 'Guest';
+    else socket.name = data;
+  })
+})
+
+function rm_socket(socket){
+  sockets.splice(sockets.indexOf(socket),1);
+}

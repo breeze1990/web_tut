@@ -123,8 +123,11 @@ function restack(cur){
 function output(){
     var content = {};
     var lst = _.getElementsByClassName('rblk');
-    for(var it=0;it<=blk_count;it++){
-        content[it] = lst[it].children[1].innerHTML;
+    for(var it=1;it<=blk_count;it++){
+        content[it] = {};
+        content[it]['content'] = lst[it].children[1].innerHTML;
+        content[it]['color'] = window.getComputedStyle(lst[it]).getPropertyValue('border-bottom-color');
+        content[it]['_id'] = lst[it]._id;
     }
     $('output').innerHTML = JSON.stringify(content)
 }
