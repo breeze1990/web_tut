@@ -7,7 +7,14 @@ var blkPool = {};
 
 window.onload = function(){
     setMovable($('pal'));
-    setMovable($('test'));
+    //setMovable($('test'));
+    socket.on('notes',function(data){
+        console.log(data);
+        for(var key in data){
+            add(data[key]);
+        }
+    });
+    socket.emit('rq_notes_data','');
 }
 
 function changeclr(event){
@@ -37,7 +44,7 @@ function rmBlk(event){
     var par = cur.parentNode;
     par.removeChild(cur);
 }
-function add(){
+function add(info){
     var node = _.createElement("div");
     node._id = CMT_IDM.getNext();
     blkPool[node._id] = node;
@@ -68,6 +75,14 @@ function add(){
     _.body.appendChild(node);
 
     node.style.zIndex = blk_count;
+
+    if(typeof info != "undefined"){
+        node.childNodes[1].innerHTML = info['content'];
+        node.style.left = info['left'];
+        node.style.top = info['top'];
+        node.style['border-color'] = info['color'];
+        node.children[0].children[0].style['background-color'] = info['color'];
+    }
 }
 function hide_conf(){
     edit_obj = {};
@@ -114,7 +129,7 @@ function move_stop_prop(evt){
 function restack(cur){
     var cval = parseInt(cur.style.zIndex);
     var lst = _.getElementsByClassName('rblk');
-    for(var it=0;it<=blk_count;it++){
+    for(var it=0;it<lst.length;it++){
         var el = lst[it];
         var val = parseInt(el.style.zIndex);
         if(!isNaN(val) && val>cval) el.style.zIndex=(val-1).toString();
@@ -123,11 +138,15 @@ function restack(cur){
 function output(){
     var content = {};
     var lst = _.getElementsByClassName('rblk');
-    for(var it=1;it<=blk_count;it++){
+    for(var it=0;it<blk_count;it++){
         content[it] = {};
         content[it]['content'] = lst[it].children[1].innerHTML;
         content[it]['color'] = window.getComputedStyle(lst[it]).getPropertyValue('border-bottom-color');
         content[it]['_id'] = lst[it]._id;
+        content[it]['top'] = lst[it].style.top;
+        content[it]['left'] = lst[it].style.left;
     }
-    $('output').innerHTML = JSON.stringify(content)
+    $('output').innerHTML = JSON.stringify(content) + '\nSaved to server.';
+    socket.emit('save_data',content);
+    return content;
 }

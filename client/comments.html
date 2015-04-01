@@ -2,10 +2,11 @@
 <head>
     <link rel="stylesheet" type="text/css" href="comments.css">
     <!--link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css"-->
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.3.14/angular.min.js"></script>
     <script src="/socket.io/socket.io.js"></script>
+    <script src="sockets.js"></script>
     <script src="comments.js"></script>
     <script src="idm.js"></script>
-    <script src="sockets.js"></script>
     <script>
         function rgb(r,g,b){
             return "rgb("+r+","+g+","+b+")";
@@ -22,16 +23,16 @@
         }
     </script>
 </head>
-<body>
-    <p class="cmt">hello world</p>
-    <div><input id="name"></input><button type="button" onclick="notify_name()">Send</button></div>
-    <div id="test" class="rblk">
+<body ng-app>
+    <p class="cmt">hello {{ user_name }}</p>
+    <div><input id="name" ng-model="user_name"></input><button type="button" onclick="notify_name()">Send</button></div>
+    <!--<div id="test" class="rblk">
         <div class="rblk_card">
             <div class="label">Hello World</div>
             <div class="top_right btn btn-small"><p>&#x2715;</p></div>
         </div>
         <div class="rblk_card">drag me</div>
-    </div>
+    </div>-->
     <div id="opt_panel"><textarea id="opt_panel_tr">g</textarea>
         <div class="btn btn-norm" onclick="save(event)"><p>save</p></div><!--
         --><div class="btn btn-norm" onclick="changeclr(event)"><p>color</p></div><!--

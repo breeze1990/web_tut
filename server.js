@@ -4,6 +4,7 @@ var http = require('http');
 var router = express();
 
 var sockets = [];
+var notes_data = {};
 
 router.use(express.static(path.resolve(__dirname, 'client'), {index:'comments.html'}));
 
@@ -23,9 +24,17 @@ io.on('connection',function(socket){
     console.log((socket.name || 'A user') + ' disconnected.');
   })
 
+  socket.on('rq_notes_data',function(data){
+      socket.emit('notes',notes_data);
+  })
   socket.on('setName',function(data){
     if(!data) socket.name = 'Guest';
     else socket.name = data;
+  })
+
+  socket.on('save_data',function(data){
+      //console.log(data);
+      notes_data = data;
   })
 })
 
