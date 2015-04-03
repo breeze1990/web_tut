@@ -43,6 +43,7 @@ io.on('connection',function(socket){
           if(err){
               console.log('err happens ' + err);
           }
+          console.log(data);
           console.log('write to file');
 
       });
