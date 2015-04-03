@@ -1,0 +1,1 @@
+{"0":{"content":"drag me","color":"rgb(0, 128, 255)","_id":1,"top":"123px","left":"508px"}}

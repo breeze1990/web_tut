@@ -1,10 +1,14 @@
 var express = require('express');
 var path = require('path');
 var http = require('http');
+var fs = require('fs');
 var router = express();
 
 var sockets = [];
 var notes_data = {};
+var data_file = 'content.txt';
+
+notes_data = JSON.parse(fs.readFileSync(data_file));
 
 router.use(express.static(path.resolve(__dirname, 'client'), {index:'comments.html'}));
 
@@ -35,6 +39,7 @@ io.on('connection',function(socket){
   socket.on('save_data',function(data){
       //console.log(data);
       notes_data = data;
+      fs.writeFileSync(data_file,JSON.stringify(data));
   })
 })
 
