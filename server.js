@@ -2,13 +2,19 @@ var express = require('express');
 var path = require('path');
 var http = require('http');
 var fs = require('fs');
+var request = require('request');
+var querystring = require('querystring');
 var router = express();
 
 var sockets = [];
 var notes_data = {};
-var data_file = 'content.txt';
 
-notes_data = JSON.parse(fs.readFileSync(data_file));
+var data_url = 'http://breeze1990.appspot.com/save';
+
+request.get(data_url,function(err,res,body){
+    notes_data = JSON.parse(body);
+    console.log('data received');
+});
 
 router.use(express.static(path.resolve(__dirname, 'client'), {index:'comments.html'}));
 
@@ -39,14 +45,19 @@ io.on('connection',function(socket){
   socket.on('save_data',function(data){
       //console.log(data);
       notes_data = data;
-      fs.writeFile(data_file,JSON.stringify(data),function(err){
-          if(err){
-              console.log('err happens ' + err);
-          }
-          console.log(data);
-          console.log('write to file');
-
-      });
+      var req={};
+      req.url = data_url;
+      req.body = 'op=clear';
+      request.post(req); // clear existed data
+      for(var it in data){
+          var nt = {};
+          nt.content = data[it].content;
+          nt.color = data[it].color;
+          nt.left = data[it].left;
+          nt.top = data[it].top;
+          req.body = querystring.stringify(nt);
+          request.post(req);
+      }
   })
 })
 
