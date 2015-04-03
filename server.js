@@ -39,8 +39,13 @@ io.on('connection',function(socket){
   socket.on('save_data',function(data){
       //console.log(data);
       notes_data = data;
-      fs.writeFileSync(data_file,JSON.stringify(data));
-      console.log('write to file');
+      fs.writeFile(data_file,JSON.stringify(data),function(err){
+          if(err){
+              console.log('err happens ' + err);
+          }
+          console.log('write to file');
+
+      });
   })
 })
 
