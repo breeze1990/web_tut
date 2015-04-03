@@ -40,6 +40,7 @@ io.on('connection',function(socket){
       //console.log(data);
       notes_data = data;
       fs.writeFileSync(data_file,JSON.stringify(data));
+      console.log('write to file');
   })
 })
 
