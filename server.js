@@ -1,10 +1,12 @@
 var express = require('express');
+var params = require('express-params')
 var path = require('path');
 var http = require('http');
 var fs = require('fs');
 var request = require('request');
 var querystring = require('querystring');
 var router = express();
+params.extend(router);
 
 var sockets = [];
 var notes_data = {};
@@ -16,7 +18,15 @@ request.get(data_url,function(err,res,body){
     console.log('data received');
 });
 
-router.use(express.static(path.resolve(__dirname, 'client'), {index:'comments.html'}));
+router.use('/old',express.static(path.resolve(__dirname, 'client'), {index:'comments.html'}));
+
+router.param('id', /^\d+$/);
+router.get('/main/:user/:id', function(req,res){
+    res.end("Hello " + req.params.user + " " + req.params.id);
+});
+
+
+
 
 var server = http.createServer(router);
 server.listen(process.env.PORT || 5000, process.env.IP || "0.0.0.0", function(){

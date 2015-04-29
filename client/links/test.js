@@ -6,7 +6,7 @@ var edit_obj = {};
 $( document ).ready(function(){
     addItem();
 
-    $('html').click(function() {
+    $('html').click(function(event) {
         //Hide the menus if visible
         if (!$(event.target).closest('#edit-container').length) {
         // Hide the menus.

@@ -8,6 +8,7 @@
   },
   "dependencies": {
     "express": "~4.9.x",
+    "express-params": "0.0.3",
     "socket.io": "~1.2.0",
     "request": "~2.x.0",
     "querystring": "~0.2.0"
