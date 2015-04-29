@@ -1,0 +1,77 @@
+body {
+  padding-top: 50px;
+}
+div{
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    -khtml-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+}
+.starter-template {
+  padding: 40px 15px;
+  text-align: center;
+}
+.navbar-nav>li>span.addButton {
+    padding-top: 4px;
+    padding-bottom: 4px;
+    font-size: 30px;
+    color: white;
+}
+.nav>li>span.addButton {
+  position: relative;
+  display: block;
+}
+
+.item-blk{
+    position: absolute;
+    left: 100px;
+    top: 200px;
+    border-style: solid;
+    border-width: 3px;
+    border-color: #0080FF;
+    width: 150px;
+    background-color: white;
+    zIndex: 0;
+}
+.item-title{
+    background-color: #0080FF;
+    font-size: 20px;
+    color: white;
+    display: flex;
+    flex-direction: row;
+}
+.item-title-text{
+    width: 130px;
+}
+.item-content{
+    font-size: 15px;
+}
+.btn-close{
+    float: right;
+    font-size: 15px;
+    display: flex;
+    align-items: center;
+}
+.blur-bg{
+    -webkit-filter:blur(2px);
+    -moz-filter:blur(2px);
+    -ms-filter:blur(2px);
+    -o-filter:blur(2px);
+    filter:blur(2px);
+}
+#edit-container{
+    display: none;
+    width: 600px;
+    /*height: 200px;*/
+    background: none;
+    background-color: #EEEEEE;
+    position: fixed; /* or absolute */
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+.contentarea{
+    resize:none;
+}
