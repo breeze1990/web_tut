@@ -1,6 +1,7 @@
-(function(){
+var ItemManager = (function(){
     "use strict";
 
+var myExport = {};
 var edit_obj = {};
 
 $( document ).ready(function(){
@@ -8,7 +9,7 @@ $( document ).ready(function(){
 
     $('html').click(function(event) {
         //Hide the menus if visible
-        if (!$(event.target).closest('#edit-container').length) {
+        if (!$(event.target).closest('#edit-container').length && $("#edit-container").is(":visible")) {
         // Hide the menus.
             $("#edit-container").hide();
             $("div").removeClass("blur-bg");
@@ -28,6 +29,8 @@ $( document ).ready(function(){
         $("#edit-container").find("input").val("");
         $("#edit-container").find("textarea").val("");
     });
+
+    // $("#navbar").find("ul li ul li:contains('Blur')").click(toggleBlur);
 });
 
 var blk_count = 0;
@@ -141,5 +144,9 @@ function setMovable(node){
 function toggleBlur(){
     $("div").not("#edit-container").toggleClass("blur-bg");
 }
+
+myExport.blur = toggleBlur;
+
+return myExport;
 
 })();

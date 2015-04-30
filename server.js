@@ -19,6 +19,7 @@ request.get(data_url,function(err,res,body){
 });
 
 router.use('/old',express.static(path.resolve(__dirname, 'client'), {index:'comments.html'}));
+router.use('/',express.static(path.resolve(__dirname, 'main')));
 
 router.param('id', /^\d+$/);
 router.get('/main/:user/:id', function(req,res){
