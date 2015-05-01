@@ -5,6 +5,8 @@ var http = require('http');
 var fs = require('fs');
 var request = require('request');
 var querystring = require('querystring');
+var async = require('async');
+
 var router = express();
 params.extend(router);
 
@@ -18,15 +20,25 @@ request.get(data_url,function(err,res,body){
     console.log('data received');
 });
 
+router.use(function(req,res,next){
+    // console.log('request: ' + new Date().toString());
+    next();
+})
 router.use('/old',express.static(path.resolve(__dirname, 'client'), {index:'comments.html'}));
 router.use('/',express.static(path.resolve(__dirname, 'main')));
 
-router.param('id', /^\d+$/);
-router.get('/main/:user/:id', function(req,res){
-    res.end("Hello " + req.params.user + " " + req.params.id);
+// router.param('id', /^\d+$/);
+router.get('/main/:user/:id([0-9]+)', function(req,res){
+
+
+    res.set({ 'content-type': 'application/json; charset=utf-8' })
+    res.end("Hello " + JSON.stringify(req.params));
 });
 
-
+router.get(/^\/(test|demo)\/(\d+)\.\.(\d+)$/, function(req,res){
+    console.log(req.params);
+    res.end("received");
+});
 
 
 var server = http.createServer(router);
@@ -39,19 +51,24 @@ var io = require('socket.io')(server);
 
 io.on('connection',function(socket){
   sockets.push(socket);
-  console.log('A user connected.');
+  socket.name = "User";
+
+  bdUsers();
+  // console.log('A user connected.');
   socket.on('disconnect',function(){
     rm_socket(socket);
     console.log((socket.name || 'A user') + ' disconnected.');
-  })
+});
 
   socket.on('rq_notes_data',function(data){
       socket.emit('notes',notes_data);
-  })
+  });
   socket.on('setName',function(data){
-    if(!data) socket.name = 'Guest';
-    else socket.name = data;
-  })
+    if(!data) return;
+    console.log(socket.name + " changed to " + data);
+    socket.name = data;
+    bdUsers();
+});
 
   socket.on('save_data',function(data){
       //console.log(data);
@@ -69,9 +86,30 @@ io.on('connection',function(socket){
           req.body = querystring.stringify(nt);
           request.post(req);
       }
-  })
+  });
+
+  socket.on('userMsg', function(data){
+      console.log(data + " from " + socket.name);
+      broadcastFrom(socket,"msgFromUser",socket.name+": "+data);
+  });
 })
 
 function rm_socket(socket){
   sockets.splice(sockets.indexOf(socket),1);
+}
+
+function broadcastFrom(socket, ename, data) {
+    async.each(sockets,
+        function(sct,callback){
+            if(sct==socket) return;
+            sct.emit(ename, data);
+        }, null );
+}
+
+function bdUsers(){
+    async.map(sockets, function(s, cb){
+        cb(null, s.name);
+    }, function(err, res){
+        broadcastFrom(null, "userList", res);
+    });
 }

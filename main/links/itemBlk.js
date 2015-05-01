@@ -31,6 +31,28 @@ $( document ).ready(function(){
     });
 
     // $("#navbar").find("ul li ul li:contains('Blur')").click(toggleBlur);
+    $(".user-container-handle").data("toggleSt",true);
+    $(".user-container-handle").click(function(){
+        if($(this).data("toggleSt")){
+            $("#user-container").transition({"transform": "translate(100%, -50%)"});
+            $(this).data("toggleSt",false);
+        }else {
+            $("#user-container").transition({"transform": "translate(0, -50%)"});
+            $(this).data("toggleSt",true);
+        }
+    });
+
+    $("#user-container").find("button:contains('Rename')").click(function(event){
+        var name = $(this).parent().siblings().val();
+        serverConn.setName(name);
+    });
+    $("#user-container").find("button:contains('Send')").click(function(event){
+        var word = $(this).parent().siblings().val();
+        if(word === "") return;
+        var old = $(".user-chat").val();
+        $(".user-chat").val(old + "\n" + word);
+        serverConn.sendMsg(word);
+    });
 });
 
 var blk_count = 0;
@@ -78,24 +100,6 @@ var ItemCreator = (function(){
 })();
 
 function addItem(){
-    // var n = $("<div class='item-blk'>"+
-    // "<div class='item-title'><span class='item-title-text'>untitled</span>"+
-    // "<span class='glyphicon glyphicon-remove btn-close'></span></div>"+
-    // "<div class='item-content'>I just want to find a job why is it so hard</div></div>");
-    // n.css({
-    //     "left": "50px",
-    //     "top": "50px",
-    // });
-    // n.find(".btn-close").click(function(){
-    //     n.remove();
-    //     blk_count--;
-    // });
-    // setMovable(n);
-    // n.dblclick(function(){
-    //     toggleBlur();
-    //     $("#edit-container").show();
-    //     $("#edit-container").css("zIndex",(blk_count+1).toString());
-    // });
     var n = new ItemCreator();
 
     $("body").append(n._$el);

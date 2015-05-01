@@ -75,3 +75,27 @@ div{
 .contentarea{
     resize:none;
 }
+
+#user-container{
+    border: 2px solid blue;
+    /*height: 500px;*/
+    width:300px;
+    position: fixed;
+    top:50%;
+    right: 0px;
+    transform: translate(0, -50%);
+}
+.user-container-handle{
+    position: absolute;
+    left: -20px;
+    top: 50%;
+    transform: translate(0, -50%);
+    overflow: hidden;
+}
+.user-list{
+    resize: none;
+    /*width: 290px;*/
+}
+.user-chat{
+    resize: none;
+}
