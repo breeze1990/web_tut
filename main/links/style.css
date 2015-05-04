@@ -19,6 +19,9 @@ div{
     font-size: 30px;
     color: white;
 }
+.navbar-nav>li>span.addButton:hover {
+    text-shadow: 1px 1px 2px white;
+}
 .nav>li>span.addButton {
   position: relative;
   display: block;

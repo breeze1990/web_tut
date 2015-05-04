@@ -6,6 +6,8 @@ var fs = require('fs');
 var request = require('request');
 var querystring = require('querystring');
 var async = require('async');
+var HashMap = require('hashmap');
+var shortid = require('shortid');
 
 var router = express();
 params.extend(router);
@@ -14,6 +16,8 @@ var sockets = [];
 var notes_data = {};
 
 var data_url = 'http://breeze1990.appspot.com/save';
+
+var noteMap = new HashMap();
 
 request.get(data_url,function(err,res,body){
     notes_data = JSON.parse(body);
@@ -91,6 +95,29 @@ io.on('connection',function(socket){
   socket.on('userMsg', function(data){
       console.log(data + " from " + socket.name);
       broadcastFrom(socket,"msgFromUser",socket.name+": "+data);
+  });
+
+  socket.on('reqAddItem', function(data) {
+      var iid = shortid.generate();
+      while(noteMap.get(iid)!==undefined) iid = shortid.generate();
+      var ndata = {};
+      ndata._id = iid;
+      ndata.ititle = "noname";
+      ndata.icontent = "Hello user";
+      ndata.itop = "100px";
+      ndata.ileft = "100px";
+      noteMap.set(iid, ndata);
+      broadcastFrom(null, "newItem", { _data: ndata, _method: "add" } );
+  });
+
+  socket.on('reqDelItem', function(data) {
+      var did = data._id;
+      noteMap.remove(did);
+      broadcastFrom(socket, "delItem", { _id: did } );
+  });
+
+  socket.on('reqEditItem', function(data) {
+      broadcastFrom(socket, "editItem", { _data: data, _method: "edit" });
   });
 })
 
