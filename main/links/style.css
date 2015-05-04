@@ -49,6 +49,8 @@ div{
     width: 130px;
 }
 .item-content{
+    padding: 3px 3px 3px 3px;
+    word-wrap: break-word;
     font-size: 15px;
 }
 .btn-close{
